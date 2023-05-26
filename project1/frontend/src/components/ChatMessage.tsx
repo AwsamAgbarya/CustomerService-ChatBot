@@ -4,8 +4,8 @@ import { Fragment } from "react";
 
 // Interface to save the structure of the current message
 interface Props {
-  msg:string,
-  currDate:string
+  text:string,
+  time:string
   question:boolean
 }
 
@@ -27,7 +27,7 @@ const questionStyle = {
 
 function ChatMessage(props:Props) {
   // Empty message case
-  if (props.msg === null || props.msg === "") {
+  if (props.text === null || props.text === "") {
     return <></>;
   }
   
@@ -36,10 +36,10 @@ function ChatMessage(props:Props) {
     <div style={props.question ? answerStyle : questionStyle}>
       <p className="alert alert-dark">
         <div>
-          {props.msg}
+          {props.text}
         </div>
         <div style={{ fontSize: "10px",position:"relative", float: "right" }}>
-          {props.currDate}
+          {props.time}
         </div>
       </p>
     </div>

@@ -10,20 +10,21 @@ const chatStyle = {
 }
 
 function Chat() {
+  const [chats,setChat] = useState<any[]>([{text:"xd",time:"8:00",question:true}])
 
-  const [chats,setChat] = useState<any[]>([]);
 
   const handleNewMsg = (text:string, time:string, question:boolean)=>{
-    let temp_arr = chats
-    temp_arr.push({text,time,question})
-    setChat(temp_arr)
+    const temp_arr = [...chats,{text,time,question}]
+    console.log(chats)
+    setChat([...chats,{text,time,question}])
+    console.log(chats)
     alert(temp_arr)
   }
 
   // Finalizes the div by adding all the messages
   return <>
       <div style={chatStyle}>
-        {chats.length > 0 ? chats.map(chat => <ChatMessage msg={chat.msg} currDate={chat.currDate} question={chat.question} />) : "No message history"}
+        {chats.length > 0 ? chats.map(chat => <ChatMessage text={chat.text} time={chat.time} question={chat.question} />) : "No message history"}
       </div>
       <TextArea onAddedMessage={handleNewMsg} />
     </>;

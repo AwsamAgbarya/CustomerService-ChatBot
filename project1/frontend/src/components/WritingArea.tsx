@@ -33,18 +33,19 @@ interface props {
 function TextArea(prop:props) {
 
   // useState function to bind message as a changing variable
-  const [message,setMessage] = useState('');
+  const [text,setText] = useState('');
 
   // Upon typing/Removing a message from the textbox, it changes messages value corrospondingly and logs it
   const handleMessageChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setMessage(event.target.value);
+    setText(event.target.value);
   };
   
   // Function to handle Send Button clicking
-  function handleClick() {
+  function handleClick(event:React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
     let curr = new Date()
     // logging the message on screen
-    prop.onAddedMessage(message, curr.getHours().toString(), true);
+    prop.onAddedMessage(text, curr.getHours().toString(), true);
 
     // Sending the message to URL /question via POST method with the data of our message using AXIOS
     axios({
@@ -52,7 +53,7 @@ function TextArea(prop:props) {
       url: "/question/",
       data: {
         type_of_msg: "question",
-        content: message
+        content: text
       },
     }).then((response) => {
       let curr = new Date()
@@ -63,9 +64,9 @@ function TextArea(prop:props) {
 
   // A form for the user to use (TextBox + send button)
   return <>
-    <form>
-      <input style={textStyle} value={message} onChange={handleMessageChange}></input>
-      <button type="submit" style={buttonStyle} onClick={handleClick}>Send</button>
+    <form onSubmit={handleClick}>
+      <input style={textStyle} value={text} onChange={handleMessageChange}></input>
+      <button type="submit" style={buttonStyle}>Send</button>
     </form>
   </>;
 }
