@@ -1,6 +1,5 @@
 import ChatMessage from "./ChatMessage";
 import React, { useState } from "react";
-import { Fragment } from "react";
 import TextArea from "./WritingArea";
 
 // Move Style to Css file when done debugging
@@ -10,23 +9,23 @@ const chatStyle = {
 }
 
 function Chat() {
+  // State chats to store all the text messages saved on the screen
+  const [chats,setChat] = useState<any[]>([])
 
-  const [chats,setChat] = useState<any[]>([]);
-
+  // Function handleNewMsg triggered by writingArea to update the chats with the new request and response
   const handleNewMsg = (text:string, time:string, question:boolean)=>{
-    let temp_arr = chats
-    temp_arr.push({text,time,question})
-    setChat(temp_arr)
-    alert(temp_arr)
+    setChat(chats => [...chats,{text,time,question}])
   }
 
   // Finalizes the div by adding all the messages
   return <>
       <div style={chatStyle}>
-        {chats.length > 0 ? chats.map(chat => <ChatMessage msg={chat.msg} currDate={chat.currDate} question={chat.question} />) : "No message history"}
+        {chats.length > 0 ? chats.map((chat: { text: string; time: string; question: boolean; }) => <ChatMessage text={chat.text} time={chat.time} question={chat.question} />) : "No message history"}
       </div>
       <TextArea onAddedMessage={handleNewMsg} />
     </>;
 }
 
 export default Chat;
+
+

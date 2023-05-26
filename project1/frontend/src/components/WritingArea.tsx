@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Fragment } from "react";
 
 // Move to css file when done debugging
 const textStyle = {
@@ -25,47 +24,53 @@ const buttonStyle = {
   display: "inline"
 }
 
-interface props {
-  onAddedMessage: (text:string,time:string,question:boolean) => void 
-}
+interface props { onAddedMessage: (text:string,time:string,question:boolean) => void }
 
 //ChatBox to enter text message
-function TextArea(prop:props) {
+function TextArea({onAddedMessage}:props) {
 
   // useState function to bind message as a changing variable
-  const [message,setMessage] = useState('');
+  const [text,setText] = useState('');
 
   // Upon typing/Removing a message from the textbox, it changes messages value corrospondingly and logs it
   const handleMessageChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setMessage(event.target.value);
+    setText(event.target.value);
   };
   
   // Function to handle Send Button clicking
-  function handleClick() {
+  function handleClick(event:React.FormEvent<HTMLFormElement>) {
+    // Prevent initial refreshing of the page
+    event.preventDefault()
+
+    // Display the question on the screen
     let curr = new Date()
-    // logging the message on screen
-    prop.onAddedMessage(message, curr.getHours().toString(), true);
+    onAddedMessage(text, curr.getHours().toString(), true);
 
     // Sending the message to URL /question via POST method with the data of our message using AXIOS
-    axios({
-      method: "POST",
-      url: "/question/",
-      data: {
-        type_of_msg: "question",
-        content: message
-      },
-    }).then((response) => {
-      let curr = new Date()
-      // The response gets added to the screen for the client to see
-      prop.onAddedMessage(response.data, curr.getHours().toString(), false);
-    });
+    axios(
+      {
+        method: "POST",
+        url: "/question/",
+        data: 
+        {
+          type_of_msg: "question",
+          content: text
+        }
+      }
+    ).then((response) => 
+      {
+        let curr = new Date()
+        // The response gets added to the screen for the client to see
+        onAddedMessage(response.data, curr.getHours().toString(), false);
+      }
+    );
   }
 
   // A form for the user to use (TextBox + send button)
   return <>
-    <form>
-      <input style={textStyle} value={message} onChange={handleMessageChange}></input>
-      <button type="submit" style={buttonStyle} onClick={handleClick}>Send</button>
+    <form onSubmit={handleClick}>
+      <input style={textStyle} value={text} onChange={handleMessageChange}></input>
+      <button type="submit" style={buttonStyle}>Send</button>
     </form>
   </>;
 }
