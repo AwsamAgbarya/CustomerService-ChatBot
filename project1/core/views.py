@@ -20,6 +20,7 @@ def front(request):
 def question(request):
     # Decoding the POST object data through questionSerializer and printing it for debugging purposes.
     serializer = questionSerializer(data=request.data)
+    print(request.data)
 
     # In the case that there is valid data
     if serializer.is_valid():
@@ -34,29 +35,3 @@ def question(request):
         return Response(reply,status=status.HTTP_201_CREATED)
     # Returning bad request response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# @api_view(['GET', 'POST'])
-# def note(request):
-
-#     if request.method == 'GET':
-#         note = Notes.objects.all()
-#         serializer = NoteSerializer(note, many=True)
-#         return Response(serializer.data)
-
-#     elif request.method == 'POST':
-#         serializer = NoteSerializer(data=request.data)
-        
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# @api_view(['DELETE'])
-# def note_detail(request, pk):
-#     try:
-#         note = Notes.objects.get(pk=pk)
-#     except Notes.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-
-#     if request.method == 'DELETE':
-#         note.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)

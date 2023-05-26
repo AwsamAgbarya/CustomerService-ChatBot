@@ -29,6 +29,10 @@ interface props {
   onAddedMessage: (text:string,time:string,question:boolean) => void 
 }
 
+const delay = (ms: number | undefined) => new Promise(
+  resolve => setTimeout(resolve, ms)
+);
+
 //ChatBox to enter text message
 function TextArea(prop:props) {
 
@@ -41,13 +45,12 @@ function TextArea(prop:props) {
   };
   
   // Function to handle Send Button clicking
-  function handleClick(event:React.FormEvent<HTMLFormElement>) {
+  async function handleClick(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     let curr = new Date()
-    // logging the message on screen
     prop.onAddedMessage(text, curr.getHours().toString(), true);
-
     // Sending the message to URL /question via POST method with the data of our message using AXIOS
+    await delay(1000);
     axios({
       method: "POST",
       url: "/question/",
