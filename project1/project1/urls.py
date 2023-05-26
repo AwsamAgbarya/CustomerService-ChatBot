@@ -18,10 +18,12 @@ from core.views import front, question
 from django.contrib import admin
 from django.urls import path
 from core.views import front
+from core.views import database_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", front, name="front"),
     #URL used to direct a chat message from the client to the server
     path("question/", question, name="question"),
+    path('api/databases', database_list, name='database_list')
 ]

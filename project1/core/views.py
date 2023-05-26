@@ -5,12 +5,22 @@ from .serializers import questionSerializer
 from .models import ChatMessage
 from django.shortcuts import render
 from pymongo import MongoClient
+from django.http import JsonResponse
 
 #Connecting the database
 # connection_string = 'mongodb+srv://meow:123@chatbot.g6qvdwt.mongodb.net/test'
 # client = pymongo.MongoClient('connection_string')
 #db = client['db_name']
 
+def database_list(request):
+    # Connect to the MongoDB server
+    client = MongoClient('mongodb://superuser:superpassword@localhost:27017/?authMechanism=SCRAM-SHA-1&authSource=customer')
+    # Retrieve the list of databases
+    database_names = client.list_database_names()
+    # Close the MongoDB connection
+    client.close()
+    # Return the database list as JSON response
+    return JsonResponse({'databases': database_names})
 
 def front(request):
     context = { }
