@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from .models import Notes
+from .models import ChatMessage
 
-class NoteSerializer(serializers.ModelSerializer):
+class questionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Notes
+        model = ChatMessage
         fields = '__all__'
-#       If needed to convert all fields
