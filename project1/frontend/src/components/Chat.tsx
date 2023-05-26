@@ -1,8 +1,6 @@
 import ChatMessage from "./ChatMessage";
 import React, { useState } from "react";
-import { Fragment } from "react";
 import TextArea from "./WritingArea";
-import axios from "axios";
 
 // Move Style to Css file when done debugging
 const chatStyle = {
@@ -11,9 +9,10 @@ const chatStyle = {
 }
 
 function Chat() {
-
+  // State chats to store all the text messages saved on the screen
   const [chats,setChat] = useState<any[]>([])
 
+  // Function handleNewMsg triggered by writingArea to update the chats with the new request and response
   const handleNewMsg = (text:string, time:string, question:boolean)=>{
     setChat(chats => [...chats,{text,time,question}])
   }
@@ -28,7 +27,5 @@ function Chat() {
 }
 
 export default Chat;
-function useEffect(arg0: () => void) {
-  throw new Error("Function not implemented.");
-}
+
 

@@ -15,7 +15,7 @@ from pymongo import MongoClient
 def front(request):
     context = { }
     return render(request, "index.html", context)
-# Create your views here.
+    
 @api_view(['POST'])
 def question(request):
     # Decoding the POST object data through questionSerializer and printing it for debugging purposes.
