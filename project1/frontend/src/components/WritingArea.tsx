@@ -24,7 +24,7 @@ const buttonStyle = {
   display: "inline"
 }
 
-interface props { onAddedMessage: (text:string,time:string,question:boolean) => void }
+interface props { onAddedMessage: (text:string,time:Date,question:boolean) => number }
 
 //ChatBox to enter text message
 function TextArea({onAddedMessage}:props) {
@@ -44,7 +44,7 @@ function TextArea({onAddedMessage}:props) {
 
     // Display the question on the screen
     let curr = new Date()
-    onAddedMessage(text, curr.getHours().toString(), true);
+    let lastMsgId = onAddedMessage(text, curr, true);
 
     // Sending the message to URL /question via POST method with the data of our message using AXIOS
     axios(
@@ -54,14 +54,15 @@ function TextArea({onAddedMessage}:props) {
         data: 
         {
           type_of_msg: "question",
-          content: text
+          content: text,
+          id:lastMsgId
         }
       }
     ).then((response) => 
       {
         let curr = new Date()
         // The response gets added to the screen for the client to see
-        onAddedMessage(response.data, curr.getHours().toString(), false);
+        onAddedMessage(response.data, curr, false);
       }
     );
   }

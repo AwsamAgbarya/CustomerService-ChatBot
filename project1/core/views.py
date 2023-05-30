@@ -40,6 +40,7 @@ def question(request):
         # We compute a valid answer here
         # print(serializer.data)
         reply = "ong you trippin fr fr"
+        response_id = serializer.data['id']+1
 
         # Returning OK response including a reply
         return Response(reply,status=status.HTTP_201_CREATED)

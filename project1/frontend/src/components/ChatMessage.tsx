@@ -5,8 +5,9 @@ import { Fragment } from "react";
 // Interface to save the structure of the current message
 interface Props {
   text:string,
-  time:string
-  question:boolean
+  time:string,
+  question:boolean,
+  id:number
 }
 
 // Move styles to Css file when done debugging lmao
